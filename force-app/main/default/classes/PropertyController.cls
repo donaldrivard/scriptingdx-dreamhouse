@@ -23,7 +23,7 @@ global with sharing class PropertyController {
 
     @AuraEnabled
     public static Property__c findById(Id propertyId) {
-        return [SELECT id, name, beds__c, baths__c, address__c, city__c, state__c, assessed_value__c, price__c, Date_Listed__c, Location__Latitude__s, Location__Longitude__s 
+        return [SELECT id, name, beds__c, baths__c, address__c, checkbox__c, city__c, state__c, assessed_value__c, price__c, Date_Listed__c, Location__Latitude__s, Location__Longitude__s 
                 FROM Property__c
                 WHERE Id=:propertyId];
     }
@@ -39,12 +39,12 @@ global with sharing class PropertyController {
     public static List<Property__c> getSimilarProperties (Id propertyId, Decimal bedrooms, Decimal price, String searchCriteria) {
         if (searchCriteria == 'Bedrooms') {
             return [
-                SELECT Id, Name, Beds__c, Baths__c, Price__c, Broker__c, Status__c, Thumbnail__c 
+                SELECT Id, Name, Beds__c, Baths__c, Price__c, Checkbox__c,Broker__c, Status__c, Thumbnail__c 
                 FROM Property__c WHERE Id != :propertyId AND Beds__c = :bedrooms
             ];
         } else {
             return [
-                SELECT Id, Name, Beds__c, Baths__c, Price__c, Broker__c, Status__c, Thumbnail__c 
+                SELECT Id, Name, Beds__c, Baths__c, Price__c, Checkbox__c, Broker__c, Status__c, Thumbnail__c 
                 FROM Property__c WHERE Id != :propertyId AND Price__c > :price - 100000 AND Price__c < :price + 100000
             ];
         }
